@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#101820" />
+<title>Görsel Navigasyon MVP</title>
+<style>
+:root{--bg:#0d1117;--card:#151b23;--muted:#9aa7b2;--accent:#2ed47a;--line:#253041}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:white}
+.app{max-width:520px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 16px calc(24px + env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 2px 12px}
+.badge{font-size:12px;background:#1c2733;padding:7px 10px;border-radius:20px;color:#b9c6d0}
+h1{font-size:22px;margin:0}.sub{color:var(--muted);font-size:14px;margin:5px 0 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 34px #0005}
+.visual{height:280px;display:flex;align-items:flex-end;padding:22px;background:
+linear-gradient(180deg,#38546b 0%,#7294a9 42%,#273b2c 43%,#1f2c24 100%);position:relative}
+.visual:before{content:"";position:absolute;left:15%;right:15%;bottom:0;height:58%;background:
+linear-gradient(90deg,transparent 47%,#c8c8c8 47%,#c8c8c8 53%,transparent 53%);clip-path:polygon(43% 0,57% 0,95% 100%,5% 100%)}
+.landmark{position:relative;z-index:2;background:#0009;padding:12px 14px;border-radius:15px;font-size:14px}
+.content{padding:20px}.eyebrow{font-size:12px;color:#a9b6c0;text-transform:uppercase;letter-spacing:.08em}
+.distance{font-size:42px;font-weight:750;line-height:1.05;margin:6px 0}
+.instruction{font-size:22px;font-weight:700;line-height:1.2;margin:8px 0}
+.desc{font-size:14px;color:#b9c4cc;line-height:1.45}
+.progress{height:7px;background:#273140;border-radius:8px;margin:18px 0;overflow:hidden}.progress>div{height:100%;background:var(--accent);width:0%}
+.row{display:flex;gap:10px;margin-top:12px}.btn{flex:1;border:0;border-radius:15px;padding:14px 12px;font-weight:700;font-size:15px}
+.primary{background:var(--accent);color:#082014}.secondary{background:#202a36;color:white;border:1px solid #334153}
+.status{margin:14px 0;background:#111820;border:1px solid var(--line);border-radius:16px;padding:13px 14px;font-size:13px;color:#bdc8d1}
+.list{margin-top:16px}.point{display:flex;gap:10px;align-items:center;padding:12px 0;border-top:1px solid #212b37}.dot{width:10px;height:10px;border-radius:50%;background:#536171}.dot.active{background:var(--accent);box-shadow:0 0 0 5px #2ed47a22}
+small{color:var(--muted)}
+footer{padding:18px 4px;color:#71808c;font-size:12px;line-height:1.45}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div><h1>Görsel Rota</h1><div class="sub">İstanbul • MVP Testi</div></div>
+    <div class="badge" id="modeBadge">DEMO</div>
+  </div>
+
+  <div class="card">
+    <div class="visual"><div class="landmark" id="visualLabel">Başlangıç noktası</div></div>
+    <div class="content">
+      <div class="eyebrow">Sıradaki görsel nokta</div>
+      <div class="distance" id="distance">— m</div>
+      <div class="instruction" id="instruction">Teste başlamak için aşağıdaki düğmeye dokun.</div>
+      <div class="desc" id="description">Bu deneme sürümü, konumuna göre sıradaki görsel yönlendirme kartını değiştirir.</div>
+      <div class="progress"><div id="bar"></div></div>
+      <div class="row">
+        <button class="btn primary" id="gpsBtn">Gerçek GPS'i Aç</button>
+        <button class="btn secondary" id="demoBtn">Demo İlerle</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="status" id="status">GPS kapalı. Evdeyken “Demo İlerle” ile akışı deneyebilirsin.</div>
+
+  <div class="list" id="list"></div>
+
+  <footer>
+    Güvenlik: Bu prototip gerçek sürüşte tek başına navigasyon yerine kullanılmamalıdır. İlk saha testinde yolcu koltuğundaki bir kişi ekranı takip etmelidir.
+  </footer>
+</div>
+
+<script>
+// DEMO NOKTALARI — ilk saha testinden önce kesin koordinat ve görsellerle güncellenecek.
+const points = [
+  {name:"Alibeyköy başlangıç", lat:41.0829, lon:28.9450, trigger:180,
+   instruction:"Ana yola çık ve Eyüp yönünde devam et.",
+   description:"İlk gerçek fotoğraf buraya eklenecek."},
+  {name:"Eyüp Sultan çevresi", lat:41.0479, lon:28.9339, trigger:220,
+   instruction:"Eyüp Sultan yön tabelasını görünce ana yolda kal.",
+   description:"Bu kartta sürücünün gerçekten göreceği bina/tabela fotoğrafı kullanılacak."},
+  {name:"Haliç bağlantısı", lat:41.0528, lon:28.9495, trigger:250,
+   instruction:"Köprü bağlantısına yaklaşırken şeridini erken seç.",
+   description:"Karmaşık kavşakta görsel + kısa cümle birlikte gösterilecek."},
+  {name:"Taksim yaklaşımı", lat:41.0369, lon:28.9850, trigger:200,
+   instruction:"Taksim yönünü takip et; hedefe yaklaşıyorsun.",
+   description:"Son kart, varış öncesindeki en net görsel işareti gösterecek."}
+];
+
+let idx = 0, watchId = null, gpsMode = false;
+
+function haversine(lat1,lon1,lat2,lon2){
+  const R=6371000, toRad=x=>x*Math.PI/180;
+  const dLat=toRad(lat2-lat1), dLon=toRad(lon2-lon1);
+  const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(a));
+}
+
+function render(distance=null){
+  const p=points[idx];
+  document.getElementById("visualLabel").textContent=p.name;
+  document.getElementById("instruction").textContent=p.instruction;
+  document.getElementById("description").textContent=p.description;
+  document.getElementById("distance").textContent=distance===null?"— m":Math.round(distance)+" m";
+  document.getElementById("bar").style.width=((idx)/(points.length-1)*100)+"%";
+  const list=document.getElementById("list");
+  list.innerHTML=points.map((x,i)=>`<div class="point"><div class="dot ${i===idx?'active':''}"></div><div><b>${i+1}. ${x.name}</b><br><small>${i<idx?'Geçildi':i===idx?'Sıradaki nokta':'Bekliyor'}</small></div></div>`).join("");
+}
+
+function advance(){
+  if(idx<points.length-1){ idx++; render(); }
+  else{
+    document.getElementById("instruction").textContent="Test rotası tamamlandı.";
+    document.getElementById("description").textContent="Bir sonraki adım gerçek yol fotoğraflarını ve kesin koordinatları eklemek.";
+    document.getElementById("distance").textContent="✓";
+    document.getElementById("bar").style.width="100%";
+  }
+}
+
+document.getElementById("demoBtn").onclick=()=>{gpsMode=false;document.getElementById("modeBadge").textContent="DEMO";advance();};
+
+document.getElementById("gpsBtn").onclick=()=>{
+  if(!navigator.geolocation){
+    document.getElementById("status").textContent="Bu tarayıcı konum özelliğini desteklemiyor."; return;
+  }
+  gpsMode=true; document.getElementById("modeBadge").textContent="GPS";
+  document.getElementById("status").textContent="Konum izni bekleniyor…";
+  if(watchId!==null) navigator.geolocation.clearWatch(watchId);
+  watchId=navigator.geolocation.watchPosition(pos=>{
+    const {latitude,longitude,accuracy}=pos.coords;
+    const p=points[idx];
+    const d=haversine(latitude,longitude,p.lat,p.lon);
+    render(d);
+    document.getElementById("status").textContent=`GPS aktif • doğruluk yaklaşık ±${Math.round(accuracy)} m`;
+    if(d <= p.trigger && idx < points.length-1) advance();
+  }, err=>{
+    document.getElementById("status").textContent="Konum alınamadı: "+err.message+" • HTTPS üzerinden açtığından ve konum izni verdiğinden emin ol.";
+  }, {enableHighAccuracy:true, maximumAge:1000, timeout:10000});
+};
+
+render();
+</script>
+</body>
+</html>
