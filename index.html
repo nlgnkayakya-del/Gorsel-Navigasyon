@@ -1,136 +1,27 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="theme-color" content="#101820" />
-<title>Görsel Navigasyon MVP</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<title>Görsel Rota — Çırçır → Eyüp Sultan</title>
 <style>
-:root{--bg:#0d1117;--card:#151b23;--muted:#9aa7b2;--accent:#2ed47a;--line:#253041}
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:white}
-.app{max-width:520px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 16px calc(24px + env(safe-area-inset-bottom))}
-.top{display:flex;justify-content:space-between;align-items:center;padding:18px 2px 12px}
-.badge{font-size:12px;background:#1c2733;padding:7px 10px;border-radius:20px;color:#b9c6d0}
-h1{font-size:22px;margin:0}.sub{color:var(--muted);font-size:14px;margin:5px 0 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 34px #0005}
-.visual{height:280px;display:flex;align-items:flex-end;padding:22px;background:
-linear-gradient(180deg,#38546b 0%,#7294a9 42%,#273b2c 43%,#1f2c24 100%);position:relative}
-.visual:before{content:"";position:absolute;left:15%;right:15%;bottom:0;height:58%;background:
-linear-gradient(90deg,transparent 47%,#c8c8c8 47%,#c8c8c8 53%,transparent 53%);clip-path:polygon(43% 0,57% 0,95% 100%,5% 100%)}
-.landmark{position:relative;z-index:2;background:#0009;padding:12px 14px;border-radius:15px;font-size:14px}
-.content{padding:20px}.eyebrow{font-size:12px;color:#a9b6c0;text-transform:uppercase;letter-spacing:.08em}
-.distance{font-size:42px;font-weight:750;line-height:1.05;margin:6px 0}
-.instruction{font-size:22px;font-weight:700;line-height:1.2;margin:8px 0}
-.desc{font-size:14px;color:#b9c4cc;line-height:1.45}
-.progress{height:7px;background:#273140;border-radius:8px;margin:18px 0;overflow:hidden}.progress>div{height:100%;background:var(--accent);width:0%}
-.row{display:flex;gap:10px;margin-top:12px}.btn{flex:1;border:0;border-radius:15px;padding:14px 12px;font-weight:700;font-size:15px}
-.primary{background:var(--accent);color:#082014}.secondary{background:#202a36;color:white;border:1px solid #334153}
-.status{margin:14px 0;background:#111820;border:1px solid var(--line);border-radius:16px;padding:13px 14px;font-size:13px;color:#bdc8d1}
-.list{margin-top:16px}.point{display:flex;gap:10px;align-items:center;padding:12px 0;border-top:1px solid #212b37}.dot{width:10px;height:10px;border-radius:50%;background:#536171}.dot.active{background:var(--accent);box-shadow:0 0 0 5px #2ed47a22}
-small{color:var(--muted)}
-footer{padding:18px 4px;color:#71808c;font-size:12px;line-height:1.45}
+:root{--bg:#0d1117;--card:#151c25;--line:#293647;--muted:#a8b3bf;--green:#2ed47a;--soft:#202b38}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:540px;margin:auto;min-height:100vh;padding:calc(12px + env(safe-area-inset-top)) 16px calc(25px + env(safe-area-inset-bottom))}header{padding:8px 2px 15px}.brand{font-size:25px;font-weight:800}.route{color:var(--muted);margin-top:5px}.panel{border:1px solid var(--line);background:var(--card);border-radius:24px;overflow:hidden}.hero{min-height:235px;padding:22px;display:flex;align-items:flex-end;position:relative;background:linear-gradient(#7898ad 0 43%,#263e2d 43% 100%)}.road{position:absolute;bottom:0;left:25%;right:25%;height:62%;background:#bfc4c7;clip-path:polygon(42% 0,58% 0,100% 100%,0 100%)}.landmark{position:relative;background:#07100bd9;padding:12px 15px;border-radius:15px;font-size:17px}.body{padding:20px}.label{font-size:12px;color:#aeb9c5;letter-spacing:.08em;text-transform:uppercase}.distance{font-size:52px;font-weight:800;margin:7px 0}.title{font-size:26px;font-weight:800;line-height:1.18}.desc{font-size:15px;color:var(--muted);line-height:1.45;margin-top:9px}.progress{height:7px;border-radius:9px;background:#283547;margin:20px 0;overflow:hidden}.progress i{display:block;height:100%;background:var(--green);width:0%}.row{display:flex;gap:10px}.btn{flex:1;border:0;border-radius:16px;padding:15px 10px;font-weight:800;font-size:16px}.go{background:var(--green);color:#062214}.reset{background:var(--soft);color:#fff;border:1px solid #37485c}.status,.note{margin-top:14px;border:1px solid var(--line);border-radius:17px;padding:14px 15px;color:#c5ced6;font-size:14px;line-height:1.45}.note{background:#111820}.points{margin-top:16px}.point{display:flex;gap:12px;padding:15px 4px;border-top:1px solid #253241}.dot{width:12px;height:12px;border-radius:50%;background:#536273;margin-top:5px;flex:none}.dot.active{background:var(--green);box-shadow:0 0 0 6px #2ed47a20}.dot.done{background:#7b8794}.pname{font-weight:750;font-size:17px}.pstate{color:var(--muted);font-size:13px;margin-top:3px}footer{color:#73818d;font-size:12px;line-height:1.4;padding:18px 3px}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="top">
-    <div><h1>Görsel Rota</h1><div class="sub">İstanbul • MVP Testi</div></div>
-    <div class="badge" id="modeBadge">DEMO</div>
-  </div>
-
-  <div class="card">
-    <div class="visual"><div class="landmark" id="visualLabel">Başlangıç noktası</div></div>
-    <div class="content">
-      <div class="eyebrow">Sıradaki görsel nokta</div>
-      <div class="distance" id="distance">— m</div>
-      <div class="instruction" id="instruction">Teste başlamak için aşağıdaki düğmeye dokun.</div>
-      <div class="desc" id="description">Bu deneme sürümü, konumuna göre sıradaki görsel yönlendirme kartını değiştirir.</div>
-      <div class="progress"><div id="bar"></div></div>
-      <div class="row">
-        <button class="btn primary" id="gpsBtn">Gerçek GPS'i Aç</button>
-        <button class="btn secondary" id="demoBtn">Demo İlerle</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="status" id="status">GPS kapalı. Evdeyken “Demo İlerle” ile akışı deneyebilirsin.</div>
-
-  <div class="list" id="list"></div>
-
-  <footer>
-    Güvenlik: Bu prototip gerçek sürüşte tek başına navigasyon yerine kullanılmamalıdır. İlk saha testinde yolcu koltuğundaki bir kişi ekranı takip etmelidir.
-  </footer>
-</div>
-
+<div class="app"><header><div class="brand">Görsel Rota</div><div class="route">Çırçır Metro → Eyüp Sultan Camii • Saha Testi v2</div></header>
+<section class="panel"><div class="hero"><div class="road"></div><div class="landmark" id="landmark">Çırçır Metro başlangıç</div></div><div class="body"><div class="label">Sıradaki görsel referans</div><div class="distance" id="distance">— m</div><div class="title" id="title">Rotayı başlatmaya hazır.</div><div class="desc" id="desc">GPS açıldığında uygulama bulunduğun noktayı takip eder ve yaklaştığın referans kartına otomatik geçer.</div><div class="progress"><i id="bar"></i></div><div class="row"><button class="btn go" id="startBtn">Rotayı Başlat</button><button class="btn reset" id="resetBtn">Sıfırla</button></div></div></section>
+<div class="status" id="status">GPS kapalı.</div><div class="note"><b>Bu sürüm ne yapıyor?</b><br>Çırçır ve Eyüp Sultan için gerçek koordinatlar kullanır. Şimdilik yol fotoğrafları yerine referans kartları vardır. Bir sonraki saha turunda çekilecek fotoğraflar bu kartların yerine eklenecek.</div><div class="points" id="points"></div><footer>Güvenlik: Bu bir saha testi prototipidir; araç kullanırken telefonu sürücü kullanmamalıdır. Dönüş talimatı için mevcut navigasyon uygulaması kullanılmaya devam edilmelidir.</footer></div>
 <script>
-// DEMO NOKTALARI — ilk saha testinden önce kesin koordinat ve görsellerle güncellenecek.
-const points = [
-  {name:"Alibeyköy başlangıç", lat:41.0829, lon:28.9450, trigger:180,
-   instruction:"Ana yola çık ve Eyüp yönünde devam et.",
-   description:"İlk gerçek fotoğraf buraya eklenecek."},
-  {name:"Eyüp Sultan çevresi", lat:41.0479, lon:28.9339, trigger:220,
-   instruction:"Eyüp Sultan yön tabelasını görünce ana yolda kal.",
-   description:"Bu kartta sürücünün gerçekten göreceği bina/tabela fotoğrafı kullanılacak."},
-  {name:"Haliç bağlantısı", lat:41.0528, lon:28.9495, trigger:250,
-   instruction:"Köprü bağlantısına yaklaşırken şeridini erken seç.",
-   description:"Karmaşık kavşakta görsel + kısa cümle birlikte gösterilecek."},
-  {name:"Taksim yaklaşımı", lat:41.0369, lon:28.9850, trigger:200,
-   instruction:"Taksim yönünü takip et; hedefe yaklaşıyorsun.",
-   description:"Son kart, varış öncesindeki en net görsel işareti gösterecek."}
-];
-
-let idx = 0, watchId = null, gpsMode = false;
-
-function haversine(lat1,lon1,lat2,lon2){
-  const R=6371000, toRad=x=>x*Math.PI/180;
-  const dLat=toRad(lat2-lat1), dLon=toRad(lon2-lon1);
-  const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
-  return 2*R*Math.asin(Math.sqrt(a));
-}
-
-function render(distance=null){
-  const p=points[idx];
-  document.getElementById("visualLabel").textContent=p.name;
-  document.getElementById("instruction").textContent=p.instruction;
-  document.getElementById("description").textContent=p.description;
-  document.getElementById("distance").textContent=distance===null?"— m":Math.round(distance)+" m";
-  document.getElementById("bar").style.width=((idx)/(points.length-1)*100)+"%";
-  const list=document.getElementById("list");
-  list.innerHTML=points.map((x,i)=>`<div class="point"><div class="dot ${i===idx?'active':''}"></div><div><b>${i+1}. ${x.name}</b><br><small>${i<idx?'Geçildi':i===idx?'Sıradaki nokta':'Bekliyor'}</small></div></div>`).join("");
-}
-
-function advance(){
-  if(idx<points.length-1){ idx++; render(); }
-  else{
-    document.getElementById("instruction").textContent="Test rotası tamamlandı.";
-    document.getElementById("description").textContent="Bir sonraki adım gerçek yol fotoğraflarını ve kesin koordinatları eklemek.";
-    document.getElementById("distance").textContent="✓";
-    document.getElementById("bar").style.width="100%";
-  }
-}
-
-document.getElementById("demoBtn").onclick=()=>{gpsMode=false;document.getElementById("modeBadge").textContent="DEMO";advance();};
-
-document.getElementById("gpsBtn").onclick=()=>{
-  if(!navigator.geolocation){
-    document.getElementById("status").textContent="Bu tarayıcı konum özelliğini desteklemiyor."; return;
-  }
-  gpsMode=true; document.getElementById("modeBadge").textContent="GPS";
-  document.getElementById("status").textContent="Konum izni bekleniyor…";
-  if(watchId!==null) navigator.geolocation.clearWatch(watchId);
-  watchId=navigator.geolocation.watchPosition(pos=>{
-    const {latitude,longitude,accuracy}=pos.coords;
-    const p=points[idx];
-    const d=haversine(latitude,longitude,p.lat,p.lon);
-    render(d);
-    document.getElementById("status").textContent=`GPS aktif • doğruluk yaklaşık ±${Math.round(accuracy)} m`;
-    if(d <= p.trigger && idx < points.length-1) advance();
-  }, err=>{
-    document.getElementById("status").textContent="Konum alınamadı: "+err.message+" • HTTPS üzerinden açtığından ve konum izni verdiğinden emin ol.";
-  }, {enableHighAccuracy:true, maximumAge:1000, timeout:10000});
-};
-
-render();
-</script>
-</body>
-</html>
+const pts=[
+{name:"Çırçır Metro",lat:41.08013,lon:28.93630,radius:140,title:"Çırçır başlangıç noktasına yaklaş.",desc:"Başlangıç referansı. Fotoğraf: metro çıkışı / ana yol görünümü eklenecek."},
+{name:"Şah Sultan Camii çevresi",lat:41.05345,lon:28.93591,radius:170,title:"Eyüp merkez yaklaşımındasın.",desc:"Yaklaşım referansı. Buraya sürücünün kolay fark edeceği yol görüntüsü eklenecek."},
+{name:"Eyüp Sultan Camii",lat:41.04802,lon:28.93374,radius:130,title:"Eyüp Sultan Camii hedefi.",desc:"Varış kartı. Cami çevresindeki net yaklaşım görseli eklenecek."}
+];let idx=0,watchId=null;
+function hav(a,b,c,d){const R=6371000,r=x=>x*Math.PI/180,x=r(c-a),y=r(d-b),q=Math.sin(x/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
+function draw(d=null){const p=pts[idx];landmark.textContent=p.name;title.textContent=p.title;desc.textContent=p.desc;distance.textContent=d===null?"— m":Math.round(d)+" m";bar.style.width=(idx/(pts.length-1)*100)+"%";points.innerHTML=pts.map((x,i)=>`<div class="point"><div class="dot ${i<idx?'done':i===idx?'active':''}"></div><div><div class="pname">${i+1}. ${x.name}</div><div class="pstate">${i<idx?'Geçildi':i===idx?'Sıradaki referans':'Bekliyor'}</div></div></div>`).join("")}
+function resetRoute(){idx=0;if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}status.textContent="GPS kapalı. Rota sıfırlandı.";startBtn.textContent="Rotayı Başlat";draw()}
+function start(){if(!navigator.geolocation){status.textContent="Bu tarayıcı GPS konumunu desteklemiyor.";return}startBtn.textContent="GPS Açık";status.textContent="Konum izni bekleniyor…";if(watchId!==null)navigator.geolocation.clearWatch(watchId);let first=true;watchId=navigator.geolocation.watchPosition(pos=>{const la=pos.coords.latitude,lo=pos.coords.longitude,acc=pos.coords.accuracy;if(first){const ds=pts.map(p=>hav(la,lo,p.lat,p.lon));const nearest=ds.indexOf(Math.min(...ds));if(nearest>0)idx=nearest;first=false}let p=pts[idx],d=hav(la,lo,p.lat,p.lon);if(d<=p.radius){if(idx<pts.length-1){idx++;p=pts[idx];d=hav(la,lo,p.lat,p.lon)}else{distance.textContent="✓";title.textContent="Hedefe ulaştın.";desc.textContent="Çırçır → Eyüp Sultan saha test rotası tamamlandı.";bar.style.width="100%"}}draw(d);status.textContent=`GPS aktif • doğruluk yaklaşık ±${Math.round(acc)} m`},err=>{status.textContent="Konum alınamadı: "+err.message},{enableHighAccuracy:true,maximumAge:1000,timeout:10000})}
+startBtn.onclick=start;resetBtn.onclick=resetRoute;draw();
+</script></body></html>
